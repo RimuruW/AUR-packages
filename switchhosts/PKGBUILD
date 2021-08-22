@@ -18,18 +18,18 @@ makedepends=(
     'nodejs'
     'npm'
 )
-source=(${pkgname}-${pkgver}.tar.gz::"${url}/archive/refs/tags/${pkgver}.tar.gz")
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/v${pkgver}/SwitchHosts-v${pkgver}.tar.gz")
 sha256sums=(
     '4a3ad76fa95103c4ba041a6220987d658fc57cb697cbbd0bdd43a66cd1b7cbff'
 )
 
 prepare() {
-    cd "$pkgname"
+    cd SwitchHosts-${pkgver}
     npm install --no-audit --no-progress --no-fund --ignore-scripts electron@"$(</usr/lib/electron/version)"
 }
 
 build() {
-    cd ${pkgname}-${pkgver}
+    cd SwitchHosts-${pkgver}
     local i686=ia32 x86_64=x64 armv7h=armv7l aarch64=arm64
     npm install
     npm run build
