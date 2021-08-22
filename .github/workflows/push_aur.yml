@@ -55,8 +55,8 @@ jobs:
           rm ../aur/!(.git|.|..) || true
           cp -r ${{ matrix.pkgname }}/*  ../aur
           cd ../aur
-          git config user.name "GitHub Action"
-          git config user.email "action@github.com"
+          git config user.name ${{ secrets.AUR_USER }}
+          git config user.email ${{ secrets.AUR_EMAIL }}
           git add -A
           escape() {
             local content="$1"
