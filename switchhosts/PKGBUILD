@@ -16,7 +16,7 @@ conflicts=(
 depends=('electron')
 makedepends=(
     'nodejs'
-    'yarn
+    'yarn'
 )
 source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/v${pkgver}/SwitchHosts-v${pkgver}.tar.gz")
 sha256sums=(
