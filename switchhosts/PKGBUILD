@@ -31,7 +31,7 @@ prepare() {
 build() {
     cd SwitchHosts-${pkgver}
     local i686=ia32 x86_64=x64 armv7h=armv7l aarch64=arm64
-    npm install
+    npm install --no-audit --no-progress --no-fund --ignore-scripts electron@"$(</usr/lib/electron/version)"
     npm run build
     sed -i "s#deb:x64#pacman:${!CARCH}#g" scripts/make.js
     npm run make 
