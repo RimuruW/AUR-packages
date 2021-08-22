@@ -1,0 +1,56 @@
+# Maintainer: Qingxu <me@linioi.com>
+pkgname=switchhosts
+pkgver=4.0.3
+pkgrel=1
+pkgdesc="An App for hosts management & switching."
+arch=(
+    'any'
+    )
+url="https://github.com/oldj/SwitchHosts"
+license=('Apache')
+provides=('switchhosts')
+conflicts=(
+    'switchhosts-bin'
+    'switchhosts-appimage'
+)
+depends=('electron')
+makedepends=(
+    'nodejs'
+    'npm'
+)
+source=(${pkgname}-${pkgver}.tar.gz::"${url}/archive/refs/tags/${pkgver}.tar.gz")
+sha256sums=(
+    '4a3ad76fa95103c4ba041a6220987d658fc57cb697cbbd0bdd43a66cd1b7cbff'
+)
+
+prepare() {
+    cd "$pkgname"
+    npm install --no-audit --no-progress --no-fund --ignore-scripts electron@"$(</usr/lib/electron/version)"
+}
+
+build() {
+    cd ${pkgname}-${pkgver}
+    local i686=ia32 x86_64=x64 armv7h=armv7l aarch64=arm64
+    npm install
+    npm run build
+    sed -i "s#deb:x64#pacman:${!CARCH}#g" scripts/make.js
+    npm run make 
+}
+
+package() {
+    cd ${srcdir}
+    local i686=linux-ia32-unpacked x86_64=linux-unpacked armv7h=linux-arm7vl-unpacked aarch64=linux-arm64-unpacked
+    tar -xvf ${pkgname}-${pkgver}/dist/dist/${!CARCH}/*.pacman -C ${pkgdir}
+    rm -f ${pkgdir}/.PKGINFO ${pkgdir}/.MTREE ${pkgdir}/.INSTALL
+}
+
+post_install() {
+    # Link to the binary
+    ln -sf '/opt/appimages/SwitchHosts.AppImage' '/usr/bin/switchhosts'
+    update-mime-database /usr/share/mime || true
+    update-desktop-database /usr/share/applications || true
+}
+
+post_remove() {
+    rm -f '/usr/bin/switchhosts'
+}
