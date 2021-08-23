@@ -47,7 +47,9 @@ package() {
 
 post_install() {
     # Link to the binary
-    ln -sf '/opt/appimages/SwitchHosts.AppImage' '/usr/bin/switchhosts'
+    ln -sf '/opt/SwitchHosts/switchhosts' '/usr/bin/switchhosts'
+    # SUID chrome-sandbox for Electron 5+
+    chmod 4755 '/opt/SwitchHosts/chrome-sandbox' || true
     update-mime-database /usr/share/mime || true
     update-desktop-database /usr/share/applications || true
 }
