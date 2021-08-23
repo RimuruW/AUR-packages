@@ -33,8 +33,8 @@ prepare() {
 
     # use system electron version
     # see: https://wiki.archlinux.org/index.php/Electron_package_guidelines
-    electronDist=$(dirname $(realpath $(which electron3)))
-    electronVer=$(electron3 --version | tail -c +2)
+    electronDist=$(dirname $(realpath $(which electron)))
+    electronVer=$(electron --version | tail -c +2)
     sed -i "/electronDownload/,/}/d" scripts/make.js
     sed -i "/directories/i\  electronVersion: $electronDist," scripts/make.js
     sed -i "/directories/i\  electronDist: $electronVer," scripts/make.js
