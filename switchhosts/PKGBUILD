@@ -59,7 +59,7 @@ package() {
     cd ${srcdir}
     local i686=ia32 x86_64=amd64 armv7h=armv7l aarch64=arm64
     _sub_ver=$(cat SwitchHosts-master/src/version.json | sed "s/]/ /" | awk '{print $NF}')
-    tar -xvf SwitchHosts-master/dist/SwitchHosts_linux_${pkgver}_\(${_sub_ver}\).pacman -C ${pkgdir}
+    tar -xvf SwitchHosts-master/dist/SwitchHosts_linux_${pkgver}\(${_sub_ver}\).pacman -C ${pkgdir}
     rm -f ${pkgdir}/.PKGINFO ${pkgdir}/.MTREE ${pkgdir}/.INSTALL
 }
 
