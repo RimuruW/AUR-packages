@@ -32,8 +32,9 @@ build() {
     cd SwitchHosts-${pkgver}
     local i686=ia32 x86_64=x64 armv7h=armv7l aarch64=arm64
 #    npm install --no-audit --no-progress --no-fund --ignore-scripts electron@"$(</usr/lib/electron/version)"
-    yarn run version:up && concurrently \"yarn run build:main\" \"yarn run build:renderer\"
+    sed -i "s#npm#yarn#g" package.json
     sed -i "s#deb:x64#pacman:${!CARCH}#g" scripts/make.js
+    yarn run build
     yarn run make 
 }
 
