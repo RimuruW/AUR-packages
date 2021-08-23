@@ -54,7 +54,7 @@ build() {
 package() {
     cd ${srcdir}
     local i686=ia32 x86_64=x64 armv7h=armv7l aarch64=arm64
-    tar -xvf ${pkgname}-${pkgver}/dist/SwitchHosts-${!CARCH}.pacman -C ${pkgdir}
+    tar -xvf SwitchHosts-master/dist/SwitchHosts-${!CARCH}.pacman -C ${pkgdir}
     rm -f ${pkgdir}/.PKGINFO ${pkgdir}/.MTREE ${pkgdir}/.INSTALL
 }
 
