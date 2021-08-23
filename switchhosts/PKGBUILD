@@ -38,7 +38,7 @@ prepare() {
     sed -i "/directories/i\  electronDist: $(dirname $(realpath $(which electron)))/" scripts/make.js
     # Set arch and target
     local i686=ia32 x86_64=x64 armv7h=armv7l aarch64=arm64
-    sed -i "s/.*AppImage:x64.*$/    linux: ['pacman:build_arch']/" scripts/make.js
+    sed -i "s/.*AppImage:x64.*$/    linux: ['pacman:build_arch'],/" scripts/make.js
     sed -i "s#build_arch#${!CARCH}#g" scripts/make.js
     sed -i "/await makeMacArm/d" scripts/make.js
 }
