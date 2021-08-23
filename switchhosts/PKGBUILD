@@ -23,7 +23,8 @@ source=(
     "${pkgname}-${pkgver}.zip::${url}/archive/refs/heads/master.zip"
     )
 sha256sums=(
-    '4a3ad76fa95103c4ba041a6220987d658fc57cb697cbbd0bdd43a66cd1b7cbff'
+    #'4a3ad76fa95103c4ba041a6220987d658fc57cb697cbbd0bdd43a66cd1b7cbff'
+    '7bd4de59cb3fbfa3ffa621bc71a3a14f83ce6594d9619982427ebb49c82f8abf'
 )
 
 prepare() {
