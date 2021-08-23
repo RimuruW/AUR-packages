@@ -30,7 +30,7 @@ sha256sums=(
 prepare() {
     # cd SwitchHosts-${pkgver}
     cd SwitchHosts-master
-
+    sed -i "/mirror:/,/,/d" scripts/make.js
     # use system electron version
     # see: https://wiki.archlinux.org/index.php/Electron_package_guidelines
     #electronDist=$(dirname $(realpath $(which electron13)))
