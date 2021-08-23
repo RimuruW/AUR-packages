@@ -28,7 +28,8 @@ sha256sums=(
 )
 
 prepare() {
-    cd SwitchHosts-${pkgver}
+    # cd SwitchHosts-${pkgver}
+    cd SwitchHosts-master
 
     # use system electron version
     # see: https://wiki.archlinux.org/index.php/Electron_package_guidelines
@@ -43,7 +44,8 @@ prepare() {
 }
 
 build() {
-    cd SwitchHosts-${pkgver}
+    #cd SwitchHosts-${pkgver}
+    cd SwitchHosts-master
     npm install
     npm run build
     npm run make
