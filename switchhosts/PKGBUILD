@@ -34,7 +34,7 @@ build() {
 #    npm install --no-audit --no-progress --no-fund --ignore-scripts electron@"$(</usr/lib/electron/version)"
     sed -i "s#npm#yarn#g" package.json
     sed -i "s#deb:x64#pacman:${!CARCH}#g" scripts/make.js
-    yarn run build
+    yarn run build || true
     yarn run make 
 }
 
