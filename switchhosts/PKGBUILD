@@ -36,8 +36,8 @@ prepare() {
     electronDist=$(dirname $(realpath $(which electron)))
     electronVer=$(electron --version | tail -c +2)
     sed -i "/electronDownload/,/}/d" scripts/make.js
-    sed -i "/directories/i\  electronVersion: $electronDist," scripts/make.js
-    sed -i "/directories/i\  electronDist: $electronVer," scripts/make.js
+    sed -i "/directories/i\  electronVersion: $electronVer," scripts/make.js
+    sed -i "/directories/i\  electronDist: $electronDist," scripts/make.js
     # Set arch and target
     local i686=ia32 x86_64=x64 armv7h=armv7l aarch64=arm64
     sed -i "s/.*AppImage:x64.*$/    linux: ['pacman:build_arch'],/" scripts/make.js
