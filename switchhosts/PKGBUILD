@@ -33,10 +33,10 @@ prepare() {
 
     # use system electron version
     # see: https://wiki.archlinux.org/index.php/Electron_package_guidelines
-    electronDist=$(dirname $(realpath $(which electron)))
-    # electronVer=$(electron --version | tail -c +2)
+    electronDist=$(dirname $(realpath $(which electron13)))
+    electronVer=$(electron13 --version | tail -c +2)
     sed -i "/electronDownload/,/}/d" scripts/make.js
-    # sed -i "/directories/i\  electronVersion: ${electronVer}," scripts/make.js
+    sed -i "/directories/i\  electronVersion: ${electronVer}," scripts/make.js
     sed -i "/directories/i\  electronDist: ${electronDist}," scripts/make.js
     # Set arch and target
     local i686=ia32 x86_64=x64 armv7h=armv7l aarch64=arm64
