@@ -34,8 +34,8 @@ prepare() {
     # use system electron version
     # see: https://wiki.archlinux.org/index.php/Electron_package_guidelines
     sed -i "/electronDownload/,/}/d" scripts/make.js 
-    sed -i "/directories/i\  electronVersion: $(electron --version | tail -c +2)" scripts/make.js
-    sed -i "/directories/i\  electronDist: $(dirname $(realpath $(which electron)))/" scripts/make.js
+    sed -i "/directories/i\  electronVersion: $(electron --version | tail -c +2)," scripts/make.js
+    sed -i "/directories/i\  electronDist: $(dirname $(realpath $(which electron)))," scripts/make.js
     # Set arch and target
     local i686=ia32 x86_64=x64 armv7h=armv7l aarch64=arm64
     sed -i "s/.*AppImage:x64.*$/    linux: ['pacman:build_arch'],/" scripts/make.js
