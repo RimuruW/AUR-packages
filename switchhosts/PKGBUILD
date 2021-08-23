@@ -41,7 +41,7 @@ build() {
 package() {
     cd ${srcdir}
     local i686=linux-ia32-unpacked x86_64=linux-unpacked armv7h=linux-arm7vl-unpacked aarch64=linux-arm64-unpacked
-    tar -xvf ${pkgname}-${pkgver}/dist/dist/${!CARCH}/*.pacman -C ${pkgdir}
+    tar -xvf ${pkgname}-${pkgver}/dist/${!CARCH}/*.pacman -C ${pkgdir}
     rm -f ${pkgdir}/.PKGINFO ${pkgdir}/.MTREE ${pkgdir}/.INSTALL
 }
 
