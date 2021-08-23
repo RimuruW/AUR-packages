@@ -43,6 +43,8 @@ prepare() {
     sed -i "s/.*AppImage:x64.*$/    linux: ['pacman:build_arch'],/" scripts/make.js
     sed -i "s#build_arch#${!CARCH}#g" scripts/make.js
     sed -i "/await makeMacArm/d" scripts/make.js
+    sed -i "/win: \[/d" scripts/make.js
+    sed -i "/mac: \[/d" scripts/make.js
 }
 
 build() {
