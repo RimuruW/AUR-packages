@@ -15,7 +15,7 @@ conflicts=(
 options=(!strip)
 depends=("fuse2")
 source=(
-    "SwitchHosts_linux_${pkgver}.${_subpkgver}.AppImage::https://github.com/oldj/SwitchHosts/releases/download/v${pkgver}/SwitchHosts_linux_${pkgver}.${_subpkgver}.AppImage"
+    "SwitchHosts_linux_${pkgver}.${_subpkgver}.AppImage::https://github.com/oldj/SwitchHosts/releases/download/v${pkgver}/SwitchHosts_linux_${arch}__${pkgver}.${_subpkgver}.AppImage"
     )
 sha256sums=(
     'a5e85009955a238a57e06e5b1d48d6187e31f7370cda8fd1ca09cae25343edce'
