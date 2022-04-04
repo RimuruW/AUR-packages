@@ -27,7 +27,7 @@ optdepends=(
     'libappindicator-gtk3'
 )
 source=(
-    "YesPlayMusic-${pkgver}.pacman::https://github.com/qier222/YesPlayMusic/releases/download/v${pkgver}/YesPlayMusic-${pkgver}${subver}.pacman"
+    "YesPlayMusic-${pkgver}.pacman::https://github.com/qier222/YesPlayMusic/releases/download/v${pkgver}${subver}/YesPlayMusic-${pkgver}${subver}.pacman"
 )
 sha256sums=('70ab80784b84e2b871951022b5990e6af29833750712d0c26b30b15170aed9b9')
 
