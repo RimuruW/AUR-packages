@@ -2,7 +2,7 @@
 pkgname=switchhosts-appimage
 pkgver=4.1.2
 _subpkgver="6086"
-pkgrel=1
+pkgrel=2
 pkgdesc="An App for hosts management & switching."
 arch=('x86_64')
 url="https://github.com/oldj/SwitchHosts"
@@ -41,7 +41,7 @@ package() {
 
     # Install Icon images
     install -dm755 "${pkgdir}/usr/share/icons/hicolor/512x512/apps"
-    cp -a "${srcdir}/squashfs-root/usr/share/icons/hicolor/0x0/apps/switchhosts.png" "${pkgdir}/usr/share/icons/hicolor/512x512/apps"
+    cp -a "${srcdir}/squashfs-root/usr/share/icons/hicolor/512x512/apps/switchhosts.png" "${pkgdir}/usr/share/icons/hicolor/512x512/apps"
 }
 
 post_install() {
