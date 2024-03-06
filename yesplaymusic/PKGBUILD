@@ -29,7 +29,7 @@ optdepends=(
 source=(
     "YesPlayMusic-${pkgver}.pacman::https://github.com/qier222/YesPlayMusic/releases/download/v${pkgver}${subver}/YesPlayMusic-${pkgver}.pacman"
 )
-sha256sums=('2340ad867cb0c382d01aecc6e774a56a98c97214bcf2efea3b579a7c6efb47ae')
+sha256sums=('ff1719049256ddd20e08a803d5a3ccdf946ab7c62b324eb622ccfc33804efad2')
 
 package() {
     cd ${srcdir}
