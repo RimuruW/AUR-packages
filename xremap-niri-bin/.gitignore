@@ -4,5 +4,4 @@
 */pkg
 */src
 */*.pkg.*
-AGENTS.md
-.SRCINFO
+*.zip
