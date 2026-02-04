@@ -10,10 +10,10 @@ jobs:
     generate-matrix:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
             - name: Generate matrix
               id: gen-matrix
-              run: echo "::set-output name=packages::$(ls */ -d | cut -f1 -d'/' | jq -R . | jq -cs .)"
+              run: echo "packages=$(ls */ -d | cut -f1 -d'/' | jq -R . | jq -cs .)" >> "$GITHUB_OUTPUT"
         outputs:
             packages: ${{ steps.gen-matrix.outputs.packages }}
 
@@ -26,7 +26,7 @@ jobs:
                 pkgname: ${{ fromJson(needs.generate-matrix.outputs.packages) }}
 
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
 
@@ -38,14 +38,15 @@ jobs:
 
             - name: Check PKGBUILD
               id: build-test
-              uses: ouuan/pkgbuild-action@v1.2.0
+              uses: 2m/arch-pkgbuild-builder@v1.21
               with:
-                  path: ${{ matrix.pkgname }}
+                  target: pkgbuild
+                  pkgname: ${{ matrix.pkgname }}
 
             - uses: actions/upload-artifact@v4
               with:
                   name: ${{ matrix.pkgname }}-${{ github.run_id }}
-                  path: ${{ steps.build-test.outputs.pkgfile }}
+                  path: ./${{ matrix.pkgname }}/*.pkg.tar.zst
 
             - name: Clone AUR and update
               run: |
