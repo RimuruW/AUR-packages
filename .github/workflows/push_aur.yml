@@ -38,7 +38,7 @@ jobs:
 
             - name: Check PKGBUILD
               id: build-test
-              uses: 2m/arch-pkgbuild-builder@v1.21
+              uses: ouuan/pkgbuild-action@f2b314d7fd3bfbe8432ca42da2f37b1fa9a208d2
               with:
                   target: pkgbuild
                   pkgname: ${{ matrix.pkgname }}
