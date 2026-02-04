@@ -25,5 +25,6 @@ sha256sums_aarch64=('525ab80977b5a882541ac70f52657700a4011069c646ca7f115898fd6e0
 
 package() {
     cd "$srcdir/"
+
     install -Dm755 xremap "${pkgdir}/usr/bin/xremap"
 }

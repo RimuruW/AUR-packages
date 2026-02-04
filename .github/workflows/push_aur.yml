@@ -40,8 +40,7 @@ jobs:
               id: build-test
               uses: ouuan/pkgbuild-action@f2b314d7fd3bfbe8432ca42da2f37b1fa9a208d2
               with:
-                  target: pkgbuild
-                  pkgname: ${{ matrix.pkgname }}
+                  path: ${{ matrix.pkgname }}
 
             - uses: actions/upload-artifact@v4
               with:
