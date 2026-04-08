@@ -36,18 +36,24 @@ else
     rel=1
 fi
 
-sed -i "s/pkgver=.\+/pkgver=$ver/" PKGBUILD
-sed -i "s/pkgrel=.\+/pkgrel=$rel/" PKGBUILD
-updpkgsums
+# Backup before modifying — restore on any failure or abort
+cp PKGBUILD PKGBUILD.bak
+rollback() { echo "==> Restoring PKGBUILD..."; mv PKGBUILD.bak PKGBUILD; }
+
+sed -i "s/^pkgver=.*/pkgver=$ver/" PKGBUILD
+sed -i "s/^pkgrel=.*/pkgrel=$rel/" PKGBUILD
+
+updpkgsums || { echo "==> updpkgsums failed!"; rollback; exit 1; }
 
 rm -r src || true
 git clean -dxn
-confirm
+confirm || { echo "==> Aborted."; rollback; exit 0; }
 git clean -dxf
 
 git add -A
 git diff --cached
-confirm
+confirm || { echo "==> Aborted."; rollback; exit 0; }
 
 git commit -am "$pkg: update to $ver-$rel" --edit
 git push
+rm -f PKGBUILD.bak
