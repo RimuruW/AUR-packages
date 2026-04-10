@@ -1,6 +1,0 @@
-# makepkg artifacts
-*.zip
-*.pkg.tar.*
-pkg/
-src/
-LICENSE-*
