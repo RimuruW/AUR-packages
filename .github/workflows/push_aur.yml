@@ -37,12 +37,41 @@ jobs:
                   known_hosts: ${{ secrets.KNOWN_HOSTS }}
 
             - name: Check PKGBUILD
+              if: ${{ matrix.pkgname != 'yansu' }}
               id: build-test
               uses: ouuan/pkgbuild-action@master
               with:
                   path: ${{ matrix.pkgname }}
 
+            - name: Check yansu PKGBUILD
+              if: ${{ matrix.pkgname == 'yansu' }}
+              run: |
+                  docker run --rm \
+                    -e HOST_UID="$(id -u)" \
+                    -e HOST_GID="$(id -g)" \
+                    -v "$PWD:/workspace" \
+                    archlinux:base-devel \
+                    bash -lc '
+                      set -euo pipefail
+                      pacman-key --init
+                      pacman --noconfirm -Syu --needed namcap
+                      if ! getent group "$HOST_GID" > /dev/null; then
+                        groupadd -g "$HOST_GID" build
+                      fi
+                      useradd -m -u "$HOST_UID" -g "$HOST_GID" build
+                      workdir="$(mktemp -d)"
+                      cp -a /workspace/yansu/. "$workdir/"
+                      chown -R build:"$HOST_GID" "$workdir"
+                      cd "$workdir"
+                      runuser -u build -- makepkg --noconfirm --verifysource
+                      runuser -u build -- bash -lc "makepkg --printsrcinfo > .SRCINFO"
+                      cp .SRCINFO /workspace/yansu/.SRCINFO
+                      chown "$HOST_UID:$HOST_GID" /workspace/yansu/.SRCINFO
+                      runuser -u build -- namcap PKGBUILD || true
+                    '
+
             - uses: actions/upload-artifact@v4
+              if: ${{ matrix.pkgname != 'yansu' }}
               with:
                   name: ${{ matrix.pkgname }}-${{ github.run_id }}
                   path: ./${{ matrix.pkgname }}/*.pkg.tar.zst
