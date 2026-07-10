@@ -1,0 +1,44 @@
+# Upstream version detection for check_updates.yml.
+# Entry names must match package directory / pkgname.
+# Run manually: nvchecker -c nvchecker.toml -e <pkgname> --logger json
+
+[craft-agents-bin]
+source = "github"
+github = "craft-ai-agents/craft-agents-oss"
+use_latest_release = true
+prefix = "v"
+
+[lody-bin]
+source = "regex"
+url = "https://updates.lody.ai/production/latest-linux.yml"
+regex = "version: ([\\d.]+)"
+
+[nowledge-mem]
+source = "apt"
+mirror = "https://download-mem.nowledge.co/apt"
+suite = "stable"
+pkg = "nowledge-mem"
+
+# Upstream tags releases as YYYY.MM.P-B; pkgver uses dots throughout.
+[positron-ide-bin]
+source = "github"
+github = "posit-dev/positron"
+use_latest_release = true
+from_pattern = "^(\\d{4}\\.\\d{2}\\.\\d+)-(\\d+)$"
+to_pattern = "\\1.\\2"
+
+[xremap-niri-bin]
+source = "github"
+github = "xremap/xremap"
+use_latest_release = true
+prefix = "v"
+
+[yamlresume]
+source = "npm"
+npm = "yamlresume"
+
+[yesplaymusic]
+source = "github"
+github = "qier222/YesPlayMusic"
+use_latest_release = true
+prefix = "v"

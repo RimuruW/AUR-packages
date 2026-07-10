@@ -6,3 +6,4 @@
 */*.pkg.*
 AGENTS.md
 .SRCINFO
+*/*.deb

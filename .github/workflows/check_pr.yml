@@ -1,0 +1,41 @@
+name: "Check PR"
+
+on:
+    pull_request:
+
+jobs:
+    changed-packages:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+            - name: Detect changed packages
+              id: diff
+              run: |
+                  pkgs=$(git diff --name-only "origin/$GITHUB_BASE_REF"...HEAD | cut -f1 -d'/' | sort -u)
+                  list=$(for p in $pkgs; do [[ -f "$p/PKGBUILD" ]] && echo "$p"; done | jq -R . | jq -cs .)
+                  echo "packages=$list" >> "$GITHUB_OUTPUT"
+        outputs:
+            packages: ${{ steps.diff.outputs.packages }}
+
+    build:
+        runs-on: ubuntu-latest
+        needs: changed-packages
+        if: ${{ needs.changed-packages.outputs.packages != '[]' }}
+        strategy:
+            fail-fast: false
+            matrix:
+                pkgname: ${{ fromJson(needs.changed-packages.outputs.packages) }}
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Check PKGBUILD
+              uses: ouuan/pkgbuild-action@master
+              with:
+                  path: ${{ matrix.pkgname }}
+
+            - uses: actions/upload-artifact@v4
+              with:
+                  name: ${{ matrix.pkgname }}-pr-${{ github.run_id }}
+                  path: ./${{ matrix.pkgname }}/*.pkg.tar.zst
