@@ -27,12 +27,6 @@ use_latest_release = true
 from_pattern = "^(\\d{4}\\.\\d{2}\\.\\d+)-(\\d+)$"
 to_pattern = "\\1.\\2"
 
-[xremap-niri-bin]
-source = "github"
-github = "xremap/xremap"
-use_latest_release = true
-prefix = "v"
-
 [yamlresume]
 source = "npm"
 npm = "yamlresume"
