@@ -4,24 +4,42 @@ on:
     push:
         branches:
             - master
-    schedule:
-        - cron: "0 0 * * 6"
-    workflow_dispatch:
 
 jobs:
     generate-matrix:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
-            - name: Generate matrix
+              with:
+                  fetch-depth: 0
+            - name: Detect changed packages
               id: gen-matrix
-              run: echo "packages=$(ls */ -d | cut -f1 -d'/' | jq -R . | jq -cs .)" >> "$GITHUB_OUTPUT"
+              env:
+                  BEFORE_SHA: ${{ github.event.before }}
+              run: |
+                  packages=$(
+                    git diff --name-only "$BEFORE_SHA" "$GITHUB_SHA" |
+                      cut -f1 -d'/' |
+                      sort -u |
+                      while read -r package; do
+                        if [[ -f "$package/PKGBUILD" ]]; then
+                          printf '%s\n' "$package"
+                        fi
+                      done |
+                      jq -R . |
+                      jq -cs .
+                  )
+                  echo "packages=$packages" >> "$GITHUB_OUTPUT"
         outputs:
             packages: ${{ steps.gen-matrix.outputs.packages }}
 
     aur:
         runs-on: ubuntu-latest
         needs: generate-matrix
+        if: ${{ needs.generate-matrix.outputs.packages != '[]' }}
+        concurrency:
+            group: update-aur-${{ matrix.pkgname }}
+            cancel-in-progress: false
         strategy:
             fail-fast: false
             matrix:
@@ -81,7 +99,7 @@ jobs:
             - name: Clone AUR and update
               run: |
                   message="$(git log -n1 --pretty='%B' "${{ matrix.pkgname }}")"
-                  git clone ssh://aur@aur.archlinux.org/${{ matrix.pkgname }}.git ../aur
+                  git clone --branch master --single-branch ssh://aur@aur.archlinux.org/${{ matrix.pkgname }}.git ../aur
                   shopt -s dotglob
                   shopt -s extglob
                   rm ../aur/!(.git|.|..) || true
@@ -100,4 +118,4 @@ jobs:
                   git diff-index @ --exit-code --quiet || ( git commit -m "Update from GitHub Actions: $message
 
                   https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}" && echo "::warning::Pushed to AUR:%0A$(escape "$message")" )
-                  git push
+                  git push origin HEAD:master
